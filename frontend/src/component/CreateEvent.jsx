@@ -130,3 +130,13 @@ const CreateEvent = ({ isOpen, onRequestClose, selectedDate, onEventCreated }) =
 };
 
 export default CreateEvent;
+
+
+
+
+
+
+
+
+
+

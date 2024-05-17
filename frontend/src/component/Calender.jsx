@@ -4,7 +4,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 import CreateEvent from './CreateEvent';
- // Import the CSS file
+import EventActionsPopup from './EventActionsPopup';
 
 const localizer = momentLocalizer(moment);
 
@@ -12,6 +12,7 @@ const MyCalendar = () => {
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     fetchEvents();
@@ -24,12 +25,17 @@ const MyCalendar = () => {
         title: event.title,
         start: new Date(event.start),
         end: new Date(event.end),
-        desc: event.description
+        desc: event.description,
+        id: event.id
       }));
       setEvents(fetchedEvents);
     } catch (error) {
       console.error('Error fetching events:', error);
     }
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event); 
   };
 
   const handleDateClick = (slotInfo) => {
@@ -38,7 +44,12 @@ const MyCalendar = () => {
   };
 
   const handleEventCreated = () => {
-    fetchEvents(); // Refresh events after a new event is created
+    fetchEvents(); 
+  };
+
+  const handleEventDeleted = () => {
+    fetchEvents();
+    setSelectedEvent(null); 
   };
 
   return (
@@ -51,6 +62,7 @@ const MyCalendar = () => {
         style={{ height: 700 }}
         selectable
         onSelectSlot={handleDateClick}
+        onSelectEvent={handleEventClick}
       />
       <CreateEvent
         isOpen={isModalOpen}
@@ -58,6 +70,15 @@ const MyCalendar = () => {
         selectedDate={selectedDate}
         onEventCreated={handleEventCreated}
       />
+
+      {selectedEvent && (
+        <EventActionsPopup
+          event={selectedEvent}
+          onClose={() => setSelectedEvent(null)}
+          onEventDeleted={handleEventDeleted}
+          onEventUpdated={fetchEvents}
+        />
+      )}
     </div>
   );
 };

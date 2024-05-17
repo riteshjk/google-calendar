@@ -51,4 +51,29 @@ export const createEvent = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   };
+
+  export const updateEvent = async (req, res) => {
+    const { id } = req.params; 
+    const { title, description, participants, start, end, sessionNotes } = req.body;
+  
+    try {
+      const updatedEvent = await Event.findByIdAndUpdate(id, { title, description, participants, start, end, sessionNotes }, { new: true });
+      res.status(200).json({ message: "Event updated successfully", event: updatedEvent });
+    } catch (error) {
+      console.error("Error updating event:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  export const deleteEvent = async (req, res) => {
+    const { id } = req.params; 
+  
+    try {
+      await Event.findByIdAndDelete(id);
+      res.status(200).json({ message: "Event deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
   
