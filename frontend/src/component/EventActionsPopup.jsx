@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root'); // Make sure to set the app root element for accessibility
 
 const EventActionsPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) => {
   const [formData, setFormData] = useState({
     title: event.title,
     description: event.description,
-    participants: event.participants ? event.participants.join(', ') : '', 
+    participants: event.participants ? event.participants.join(', ') : '',
     sessionNotes: event.sessionNotes
   });
 
@@ -25,8 +28,8 @@ const EventActionsPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) =
         ...formData,
         participants: participantsArray
       });
-      onEventUpdated(); 
-      onClose(); 
+      onEventUpdated();
+      onClose();
     } catch (error) {
       console.error('Error updating event:', error);
     }
@@ -35,15 +38,20 @@ const EventActionsPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) =
   const handleDeleteEvent = async () => {
     try {
       await axios.delete(`http://localhost:3000/api/delete-event/${event.id}`);
-      onEventDeleted(); 
-      onClose(); 
+      onEventDeleted();
+      onClose();
     } catch (error) {
       console.error('Error deleting event:', error);
     }
   };
 
   return (
-    <div className="event-actions-popup">
+    <Modal
+      isOpen={!!event}
+      onRequestClose={onClose}
+      className="modal"
+      overlayClassName="overlay"
+    >
       <h3>Edit Event</h3>
       <form onSubmit={handleUpdateEvent}>
         <div className="form-group">
@@ -85,7 +93,7 @@ const EventActionsPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) =
       </form>
       <button type="button" onClick={handleDeleteEvent}>Delete</button>
       <button type="button" onClick={onClose}>Close</button>
-    </div>
+    </Modal>
   );
 };
 

@@ -1,17 +1,24 @@
-
+// src/App.js
+import React, { useState } from 'react';
 import './App.css';
-import GoogleCalenderIntegration from './component/GoogleCalenderIntegration';
 import MyCalendar from './component/Calender';
-import CreateEvent from './component/CreateEvent';
-
+import Auth from './component/Auth';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLoginSuccess = (user) => {
+    setUser(user);
+  };
+
   return (
     <div className="App">
-      <h1>Calender</h1>
-
-      {/* <GoogleCalenderIntegration/> */}
-      <CreateEvent/>
+      {/* {!user ? (
+        <Auth onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        <MyCalendar user={user} />
+      )} */}
+      <Auth/>
       <MyCalendar/>
     </div>
   );

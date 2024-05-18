@@ -16,6 +16,7 @@ const eventSchema = new mongoose.Schema({
     required: true,
   },
   sessionNotes: String,
+  googleEventId: String,
 });
 
 const Event = mongoose.model('Event', eventSchema);

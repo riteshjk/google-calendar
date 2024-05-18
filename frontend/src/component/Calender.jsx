@@ -1,3 +1,4 @@
+// src/component/Calender.js
 import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -8,7 +9,7 @@ import EventActionsPopup from './EventActionsPopup';
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = () => {
+const MyCalendar = ({ user }) => {
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -20,13 +21,17 @@ const MyCalendar = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/get-event');
+      const response = await axios.get('http://localhost:3000/api/get-event', {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const fetchedEvents = response.data.map(event => ({
         title: event.title,
         start: new Date(event.start),
         end: new Date(event.end),
         desc: event.description,
-        id: event.id
+        id: event.id,
       }));
       setEvents(fetchedEvents);
     } catch (error) {
@@ -35,7 +40,7 @@ const MyCalendar = () => {
   };
 
   const handleEventClick = (event) => {
-    setSelectedEvent(event); 
+    setSelectedEvent(event);
   };
 
   const handleDateClick = (slotInfo) => {
@@ -44,12 +49,12 @@ const MyCalendar = () => {
   };
 
   const handleEventCreated = () => {
-    fetchEvents(); 
+    fetchEvents();
   };
 
   const handleEventDeleted = () => {
     fetchEvents();
-    setSelectedEvent(null); 
+    setSelectedEvent(null);
   };
 
   return (
@@ -69,6 +74,7 @@ const MyCalendar = () => {
         onRequestClose={() => setIsModalOpen(false)}
         selectedDate={selectedDate}
         onEventCreated={handleEventCreated}
+        user={user}
       />
 
       {selectedEvent && (

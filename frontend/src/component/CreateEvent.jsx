@@ -1,12 +1,12 @@
+// src/component/CreateEvent.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import moment from 'moment';
 
+Modal.setAppElement('#root');
 
-Modal.setAppElement('#root'); // Bind modal to your appElement
-
-const CreateEvent = ({ isOpen, onRequestClose, selectedDate, onEventCreated }) => {
+const CreateEvent = ({ isOpen, onRequestClose, selectedDate, onEventCreated, user }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -42,6 +42,10 @@ const CreateEvent = ({ isOpen, onRequestClose, selectedDate, onEventCreated }) =
       const response = await axios.post('http://localhost:3000/api/create-event', {
         ...formData,
         participants: participantsArray
+      }, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       });
       console.log(response.data);
       alert('Event created successfully');
@@ -130,13 +134,3 @@ const CreateEvent = ({ isOpen, onRequestClose, selectedDate, onEventCreated }) =
 };
 
 export default CreateEvent;
-
-
-
-
-
-
-
-
-
-

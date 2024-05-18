@@ -1,7 +1,7 @@
 import Event from "../models/event.js";
 
 export const createEvent = async (req, res) => {
-    const { title, description, participants, date, starttime, endtime, sessionNotes } = req.body;
+    const { title, description, participants, date, starttime, endtime, sessionNotes, googleEventId } = req.body;
 
     if (!title || !date || !starttime || !endtime) {
       return res.status(400).json({ message: "Title, date, start time, and end time are required." });
@@ -18,7 +18,9 @@ export const createEvent = async (req, res) => {
         start,
         end,
         sessionNotes,
+        googleEventId
       });
+      console.log(newEvent)
 
       await newEvent.save();
 
@@ -42,7 +44,8 @@ export const createEvent = async (req, res) => {
         participants: event.participants,
         start: event.start,
         end: event.end,
-        sessionNotes: event.sessionNotes
+        sessionNotes: event.sessionNotes,
+        googleEventId: event.googleEventId
       }));
   
       res.status(200).json(formattedEvents);
@@ -54,7 +57,7 @@ export const createEvent = async (req, res) => {
 
   export const updateEvent = async (req, res) => {
     const { id } = req.params; 
-    const { title, description, participants, start, end, sessionNotes } = req.body;
+    const { title, description, participants, start, end, sessionNotes, googleEventId } = req.body;
   
     try {
       const updatedEvent = await Event.findByIdAndUpdate(id, { title, description, participants, start, end, sessionNotes }, { new: true });

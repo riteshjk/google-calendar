@@ -1,17 +1,19 @@
 import express from 'express';
 import connectDB from './config/db.js';
-import tokenRouter from "./routes/tokenRoutes.js"
+import cookieParser from 'cookie-parser';
 import eventRouter from "./routes/event.routes.js"
-import cors from "cors"
+import userRoute from "./routes/Oauth.routes.js"
+import cors from "cors";
+import dotenv from "dotenv";
 
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-
 app.use(cors())
-
-app.use("/api",tokenRouter)
+app.use(cookieParser());
+app.use("/api",userRoute)
 app.use("/api",eventRouter)
 
 
