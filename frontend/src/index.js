@@ -5,7 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import {createClient} from '@supabase/supabase-js';
-import {SessionContextProvider} from '@supabase/auth-helpers-react'
+import {SessionContextProvider} from '@supabase/auth-helpers-react';
+import {BrowserRouter} from 'react-router-dom';
+
 
 const supabase = createClient(
   "https://azhlkmprmzgufanmoyxu.supabase.co",
@@ -17,7 +19,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <SessionContextProvider supabaseClient={supabase}>
-    <App />
+      <BrowserRouter>
+    <App/>
+    </BrowserRouter>
     </SessionContextProvider>
   </React.StrictMode>
 );

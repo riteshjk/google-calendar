@@ -11,10 +11,10 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.use(cors())
+app.use(cors({origin:"*"}));
 app.use(cookieParser());
-app.use("/api",userRoute)
-app.use("/api",eventRouter)
+app.use("/auth",userRoute)
+app.use("/auth",eventRouter)
 
 
 app.listen(3000, async()=>{
@@ -28,4 +28,3 @@ app.listen(3000, async()=>{
     }
    
 })
-

@@ -39,12 +39,12 @@ const CreateEvent = ({ isOpen, onRequestClose, selectedDate, onEventCreated, use
     const participantsArray = formData.participants.split(',').map(participant => participant.trim());
 
     try {
-      const response = await axios.post('http://localhost:3000/api/create-event', {
+      const response = await axios.post('http://localhost:3000/auth/create-event', {
         ...formData,
         participants: participantsArray
       }, {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user}`,
         },
       });
       console.log(response.data);

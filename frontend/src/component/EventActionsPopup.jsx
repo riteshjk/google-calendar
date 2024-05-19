@@ -1,50 +1,82 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Modal from 'react-modal';
+import React, { useState } from "react";
+import axios from "axios";
+import Modal from "react-modal";
 
-Modal.setAppElement('#root'); // Make sure to set the app root element for accessibility
+Modal.setAppElement("#root"); // Make sure to set the app root element for accessibility
 
-const EventActionsPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) => {
+const EventActionsPopup = ({
+  event,
+  onClose,
+  onEventUpdated,
+  onEventDeleted,
+  user,
+}) => {
   const [formData, setFormData] = useState({
     title: event.title,
     description: event.description,
-    participants: event.participants ? event.participants.join(', ') : '',
-    sessionNotes: event.sessionNotes
+    participants: event.participants ? event.participants.join(", ") : "",
+    sessionNotes: event.sessionNotes,
   });
+
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleUpdateEvent = async (e) => {
     e.preventDefault();
     try {
-      const participantsArray = formData.participants.split(',').map(participant => participant.trim());
-      await axios.put(`http://localhost:3000/api/update-event/${event.id}`, {
-        ...formData,
-        participants: participantsArray
-      });
+      const participantsArray = formData.participants
+        .split(",")
+        .map((participant) => participant.trim());
+
+      await axios.put(
+        `http://localhost:3000/auth/update-event/${event.id}`,
+        {
+          ...formData,
+          participants: participantsArray,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user}`,
+          },
+        }
+      );
+
       onEventUpdated();
       onClose();
     } catch (error) {
-      console.error('Error updating event:', error);
+      console.error("Error updating event:", error);
     }
   };
+  
 
   const handleDeleteEvent = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/delete-event/${event.id}`);
+      await axios.delete(
+        `http://localhost:3000/auth/delete-event/${event.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
+        }
+      );
       onEventDeleted();
       onClose();
     } catch (error) {
-      console.error('Error deleting event:', error);
+      console.error("Error deleting event:", error);
     }
   };
 
+
+  console.log(event,'event')
   return (
     <Modal
       isOpen={!!event}
@@ -91,8 +123,12 @@ const EventActionsPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) =
         </div>
         <button type="submit">Update Event</button>
       </form>
-      <button type="button" onClick={handleDeleteEvent}>Delete</button>
-      <button type="button" onClick={onClose}>Close</button>
+      <button type="button" onClick={handleDeleteEvent}>
+        Delete
+      </button>
+      <button type="button" onClick={onClose}>
+        Close
+      </button>
     </Modal>
   );
 };

@@ -1,37 +1,59 @@
 import { AiFillGoogleCircle } from "react-icons/ai";
+
 async function navigate(url) {
   window.location.href = url;
-
-  const res = await fetch("http://localhost:3000/api/oauth2callback", {
-    method: "GET",
-    // body: JSON.stringify("hellow"),
-  });
-
 }
 
 async function auth() {
-  const response = await fetch("http://localhost:3000/api/login", {
+  const response = await fetch("http://localhost:3000/auth/login", {
     method: "POST",
   });
   const data = await response.json();
 
-navigate(data.url);
+  navigate(data.url);
+  return data;
 }
 
 const Auth = () => {
   return (
-    <div>
-      <h1>Google Calendar</h1>
+    <div style={styles.container}>
+      <h1 style={styles.heading}>Google Calendar</h1>
       <button
+        style={styles.button}
         type="button"
-        gradientDuoTone={"purpleToBlue"}
-        outline
         onClick={auth}
       >
-        <AiFillGoogleCircle /> Continue With Google
+        <AiFillGoogleCircle style={styles.icon} /> Continue With Google
       </button>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    textAlign: 'center',
+    padding: '20px',
+  
+  },
+  heading: {
+    fontSize: '24px',
+    marginBottom: '20px',
+  },
+  button: {
+    backgroundColor: '#4285F4',
+    color: '#fff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin:"auto"
+  },
+  icon: {
+    marginRight: '10px',
+  },
 };
 
 export default Auth;
