@@ -17,6 +17,7 @@ app.use("/auth",userRoute)
 app.use("/auth",eventRouter)
 
 
+
 app.listen(3000, async()=>{
     try{
         await connectDB()
