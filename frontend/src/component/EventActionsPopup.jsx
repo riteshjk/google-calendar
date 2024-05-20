@@ -18,8 +18,7 @@ const EventActionsPopup = ({
     sessionNotes: event.sessionNotes,
   });
 
-
-
+  console.log(formData,"hahahaha")
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +58,7 @@ const EventActionsPopup = ({
   
 
   const handleDeleteEvent = async () => {
+    
     try {
       await axios.delete(
         `http://localhost:3000/auth/delete-event/${event.id}`,

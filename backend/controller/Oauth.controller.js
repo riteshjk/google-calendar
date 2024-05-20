@@ -50,8 +50,8 @@ const oAuth2Client = new OAuth2Client(
     try {
       const { tokens } = await oAuth2Client.getToken(code);
       oAuth2Client.setCredentials(tokens);
-      console.log("tokens acquired");
-  
+    //   console.log(tokens.access_token,"tokens acquired");
+        
       const userData = await getUserData(tokens.access_token);
       console.log("User data retrieved", userData);
   
@@ -72,7 +72,7 @@ const oAuth2Client = new OAuth2Client(
       res.cookie('accessToken', tokens.access_token, { httpOnly: true, secure: true });
       res.cookie('refreshToken', tokens.refresh_token, { httpOnly: true, secure: true });
   
-      const queryString = `?name=${encodeURIComponent(user.name)}&email=${encodeURIComponent(user.email)}&profilePic=${encodeURIComponent(user.profilePic)}&acessToken=${encodeURIComponent(tokens.access_token)}&refreshToken=${encodeURIComponent(tokens.refresh_token)}`;
+      const queryString = `?name=${encodeURIComponent(user.name)}&email=${encodeURIComponent(user.email)}&profilePic=${encodeURIComponent(user.profilePic)}&accessToken=${encodeURIComponent(tokens.access_token)}&refreshToken=${encodeURIComponent(tokens.refresh_token)}`;
     
       res.redirect(`http://localhost:3001/home${queryString}`);
     

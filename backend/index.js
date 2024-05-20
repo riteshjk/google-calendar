@@ -5,7 +5,6 @@ import eventRouter from "./routes/event.routes.js"
 import userRoute from "./routes/Oauth.routes.js"
 import cors from "cors";
 import dotenv from "dotenv";
-import path from 'path';
 
 dotenv.config();
 
@@ -17,13 +16,7 @@ app.use(cookieParser());
 app.use("/auth",userRoute)
 app.use("/auth",eventRouter)
 
-const __dirname = path.resolve();
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-})
 
 app.listen(3000, async()=>{
     try{

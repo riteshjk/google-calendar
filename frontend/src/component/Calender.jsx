@@ -9,7 +9,7 @@ import EventActionsPopup from './EventActionsPopup';
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = ({ user, acessToken }) => {
+const MyCalendar = ({  accessToken }) => {
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -17,16 +17,16 @@ const MyCalendar = ({ user, acessToken }) => {
 
   useEffect(() => {
     fetchEvents();
-
-
   }, []);
+
+  console.log(accessToken,'acessToken')
 
 
   const fetchEvents = async () => {
     try {
       const response = await axios.get('http://localhost:3000/auth/get-event', {
         headers: {
-          Authorization: `Bearer ${acessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       const fetchedEvents = response.data.map(event => ({
@@ -78,7 +78,7 @@ const MyCalendar = ({ user, acessToken }) => {
         onRequestClose={() => setIsModalOpen(false)}
         selectedDate={selectedDate}
         onEventCreated={handleEventCreated}
-        user={acessToken}
+        user={accessToken}
       />
 
       {selectedEvent && (
@@ -87,7 +87,7 @@ const MyCalendar = ({ user, acessToken }) => {
           onClose={() => setSelectedEvent(null)}
           onEventDeleted={handleEventDeleted}
           onEventUpdated={fetchEvents}
-          user={acessToken}
+          user={accessToken}
         />
       )}
     </div>
