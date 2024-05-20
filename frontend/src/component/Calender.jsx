@@ -24,7 +24,7 @@ const MyCalendar = ({  accessToken }) => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/auth/get-event', {
+      const response = await axios.get('https://calendar-backend-fhh9.onrender.com/auth/get-event', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

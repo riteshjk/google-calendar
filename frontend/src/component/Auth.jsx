@@ -5,7 +5,7 @@ async function navigate(url) {
 }
 
 async function auth() {
-  const response = await fetch("http://localhost:3000/auth/login", {
+  const response = await fetch("https://calendar-backend-fhh9.onrender.com/auth/login", {
     method: "POST",
   });
   const data = await response.json();

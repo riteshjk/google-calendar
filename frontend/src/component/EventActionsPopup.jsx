@@ -36,7 +36,7 @@ const EventActionsPopup = ({
         .map((participant) => participant.trim());
 
       await axios.put(
-        `http://localhost:3000/auth/update-event/${event.id}`,
+        `https://calendar-backend-fhh9.onrender.com/auth/update-event/${event.id}`,
         {
           ...formData,
           participants: participantsArray,
@@ -61,7 +61,7 @@ const EventActionsPopup = ({
     
     try {
       await axios.delete(
-        `http://localhost:3000/auth/delete-event/${event.id}`,
+        `https://calendar-backend-fhh9.onrender.com/auth/delete-event/${event.id}`,
         {
           headers: {
             Authorization: `Bearer ${user}`,

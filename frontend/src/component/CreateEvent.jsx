@@ -39,7 +39,7 @@ const CreateEvent = ({ isOpen, onRequestClose, selectedDate, onEventCreated, use
     const participantsArray = formData.participants.split(',').map(participant => participant.trim());
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/create-event', {
+      const response = await axios.post('https://calendar-backend-fhh9.onrender.com/auth/create-event', {
         ...formData,
         participants: participantsArray
       }, {
